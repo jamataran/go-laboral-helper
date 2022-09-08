@@ -89,7 +89,7 @@ public class FosUser {
     private String nCuenta;
 
     @Column(name = "fecha_nacimiento")
-    private Date fechaNacimiento;
+    private String fechaNacimiento;
 
     @Column(name = "direccion")
     private String direccion;
