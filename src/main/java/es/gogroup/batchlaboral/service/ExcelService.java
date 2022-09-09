@@ -36,8 +36,9 @@ public class ExcelService {
 
         // Crea la hoja y ajusta anchos de columnas.
         Sheet sheet = workbook.createSheet(PERSONAL_GO);
-        sheet.setColumnWidth(0, 6000);
-        sheet.setColumnWidth(1, 4000);
+
+        //sheet.setColumnWidth(0, 6000);
+        //sheet.setColumnWidth(1, 4000);
 
         // Crea la cabecera. TODO: Resto de datos..
         Row header = sheet.createRow(0);
@@ -50,6 +51,8 @@ public class ExcelService {
         font.setFontName("Times New Roman");
         font.setFontHeightInPoints((short) 12);
         font.setBold(true);
+
+
         headerStyle.setFont(font);
 
         Cell headerCell = header.createCell(0);
@@ -69,35 +72,42 @@ public class ExcelService {
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(4);
-        headerCell.setCellValue("NUMERO_SEGURIDAD_SOCIAL");
+        headerCell.setCellValue("NUMERO_CUENTA");
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(5);
-        headerCell.setCellValue("FECHA_NACIMIENTO");
+        headerCell.setCellValue("NUMERO_SEGURIDAD_SOCIAL");
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(6);
-        headerCell.setCellValue("DIRECCION");
+        headerCell.setCellValue("FECHA_NACIMIENTO");
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(7);
-        headerCell.setCellValue("LOCALIDAD");
+        headerCell.setCellValue("DIRECCION");
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(8);
-        headerCell.setCellValue("PROVINCIA");
+        headerCell.setCellValue("LOCALIDAD");
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(9);
-        headerCell.setCellValue("CP");
+        headerCell.setCellValue("PROVINCIA");
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(10);
+        headerCell.setCellValue("CP");
+        headerCell.setCellStyle(headerStyle);
+
+        headerCell = header.createCell(11);
         headerCell.setCellValue("PAIS");
         headerCell.setCellStyle(headerStyle);
 
         CellStyle style = workbook.createCellStyle();
         style.setWrapText(true);
+
+
+
 
         // Contenido. TODO: Meter la lista de usuarios que recibimos.
         int rowCount =1;
@@ -106,18 +116,32 @@ public class ExcelService {
             Row row =sheet.createRow(rowCount++);
             int columnCount = 0;
 
-            createCell(row, columnCount++, fosUser.getNombre(),style);
-            createCell(row, columnCount++, fosUser.getApellidos(),style);
-            createCell(row, columnCount++, fosUser.getTelefono(),style);
-            createCell(row, columnCount++, fosUser.getDni(),style);
-            createCell(row, columnCount++, fosUser.getNSs(),style);
-            createCell(row, columnCount++, fosUser.getFechaNacimiento(),style);
-            createCell(row, columnCount++, fosUser.getDireccion(),style);
-            createCell(row, columnCount++, fosUser.getLocalidad(),style);
-            createCell(row, columnCount++, fosUser.getProvincia(),style);
-            createCell(row, columnCount++, fosUser.getCp(),style);
-            createCell(row, columnCount++, fosUser.getPais(),style);
+            createCell(row, columnCount++, fosUser.getNombre().toUpperCase(),style);
+            sheet.autoSizeColumn(0);
+            createCell(row, columnCount++, fosUser.getApellidos().toUpperCase(),style);
+            sheet.autoSizeColumn(1);
+            createCell(row, columnCount++, fosUser.getTelefono().toUpperCase(),style);
+            sheet.autoSizeColumn(2);
+            createCell(row, columnCount++, fosUser.getDni().toUpperCase(),style);
+            sheet.autoSizeColumn(3);
+            createCell(row, columnCount++, fosUser.getNCuenta().toUpperCase(),style);
+            sheet.autoSizeColumn(4);
+            createCell(row, columnCount++, fosUser.getNSs().toUpperCase(),style);
+            sheet.autoSizeColumn(5);
+            createCell(row, columnCount++, fosUser.getFechaNacimiento().toUpperCase(),style);
+            sheet.autoSizeColumn(6);
+            createCell(row, columnCount++, fosUser.getDireccion().toUpperCase(),style);
+            sheet.autoSizeColumn(7);
+            createCell(row, columnCount++, fosUser.getLocalidad().toUpperCase(),style);
+            sheet.autoSizeColumn(8);
+            createCell(row, columnCount++, fosUser.getProvincia().toUpperCase(),style);
+            sheet.autoSizeColumn(9);
+            createCell(row, columnCount++, fosUser.getCp().toUpperCase(),style);
+            sheet.autoSizeColumn(10);
+            createCell(row, columnCount++, fosUser.getPais().toUpperCase(),style);
+            sheet.autoSizeColumn(11);
         }
+
 
         /**Row row = sheet.createRow(2);
         Cell cell = row.createCell(0);
@@ -137,6 +161,7 @@ public class ExcelService {
         FileOutputStream outputStream = new FileOutputStream(fileLocation);
         workbook.write(outputStream);
         workbook.close();
+
     }
 
     /**
