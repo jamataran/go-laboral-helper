@@ -51,8 +51,8 @@ public class BatchLaboralApplication implements CommandLineRunner {
 
 		// Enviar excel por mail.
 		//TODO
-		this.mailService.sendXlsByMail(null, Collections.singletonList("mail@gmail.com"));
-
+		//this.mailService.sendXlsByMail(null, Collections.singletonList("mail@gmail.com"));
+		this.mailService.sendXlsByMail("luisrym@gamil.com","This is body", "This is Email with attachment", "/Users/luisrope/Users/luisroperodoval/Desktop/prueba.xlsxrodoval/");
 		// Borrar fichero
 		this.excelService.deleteExcelFile(null);
 
