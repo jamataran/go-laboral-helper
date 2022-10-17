@@ -5,10 +5,14 @@ import es.gogroup.batchlaboral.service.ExcelService;
 import es.gogroup.batchlaboral.service.FosUserService;
 import es.gogroup.batchlaboral.service.MailService;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -23,7 +27,7 @@ public class BatchLaboralApplication implements CommandLineRunner {
 
 	private final FosUserService service;
 	private final ExcelService excelService;
-	private final MailService mailService;
+	private final   MailService mailService;
 
 	public BatchLaboralApplication(FosUserService service,
 								   ExcelService excelService,
@@ -36,6 +40,7 @@ public class BatchLaboralApplication implements CommandLineRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(BatchLaboralApplication.class, args);
 	}
+
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -52,7 +57,7 @@ public class BatchLaboralApplication implements CommandLineRunner {
 		// Enviar excel por mail.
 		//TODO
 		//this.mailService.sendXlsByMail(null, Collections.singletonList("mail@gmail.com"));
-		this.mailService.sendXlsByMail("luisrym@gamil.com","This is body", "This is Email with attachment", "/Users/luisrope/Users/luisroperodoval/Desktop/prueba.xlsxrodoval/");
+		this.mailService.sendMailWithAttachment("luisrym@gamil.com","This is body", "This is Email with attachment", "/Users/luisrope/Users/luisroperodoval/Desktop/prueba.xlsxrodoval/");
 		// Borrar fichero
 		this.excelService.deleteExcelFile(null);
 

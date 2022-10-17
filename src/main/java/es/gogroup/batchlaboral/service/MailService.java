@@ -2,43 +2,52 @@ package es.gogroup.batchlaboral.service;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.mail.javamail.JavaMailSender;
 
 import java.io.File;
-import java.nio.file.Path;
-import java.util.List;
 
+import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 @Service
 @Slf4j
+@Component
 public class MailService {
 
-    private JavaMailSender javaMailSender;
 
-    /**
-     * Sends a mail with attachment
-     */
-    //public void sendXlsByMail(Path attachment, List<String> cco){
-    public void sendXlsByMail(String toEmail, String body, String subject, String attachment) throws MessagingException {
+    @Autowired
+    private JavaMailSender mailSender;
 
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper mimeMessageHelper= new MimeMessageHelper(mimeMessage, true);
+    public void sendMailWithAttachment(String to, String subject, String body, String fileToAttach)
+    {
+        MimeMessagePreparator preparator = mimeMessage -> {
+            mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            mimeMessage.setFrom(new InternetAddress("admin@gmail.com"));
+            mimeMessage.setSubject(subject);
+            mimeMessage.setText(body);
 
-        mimeMessageHelper.setFrom("no-reply@autowired.tech");
-        mimeMessageHelper.setTo(toEmail);
-        mimeMessageHelper.setText(body);
-        mimeMessageHelper.setSubject(subject);
+            FileSystemResource file = new FileSystemResource(new File(fileToAttach));
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+            helper.addAttachment("logo.jpg", file);
+        };
 
-        FileSystemResource fileSystemResource = new FileSystemResource(new File(attachment));
-        mimeMessageHelper.addAttachment(fileSystemResource.getFilename(),fileSystemResource);
-        javaMailSender.send(mimeMessage);
-
-        System.out.println("Mail with attachmente sent succesfully.");
+        try {
+            mailSender.send(preparator);
+        }
+        catch (MailException ex) {
+            // simply log it and go on...
+            System.err.println(ex.getMessage());
+        }
     }
 
 }
